@@ -1,6 +1,23 @@
 import os
 import re
 
+def main():
+    path = "./wc_input"  #filepath of input files
+    dirs = os.listdir(path)
+    totalNum = []      #make a list for all the numbers of words in every line of all file
+    for fl in dirs:
+        inputFile=open("./wc_input/"+fl,"r")
+        num = wordsinLine(inputFile)
+        totalNum =totalNum + num
+        inputFile.close()
+
+    median = medList(totalNum)    
+    outputFile=open("./wc_output/med_result.txt","w") #create a output file and write result into it
+    for i in median:
+        print i
+        outputFile.write(str(i)+'\n')
+    outputFile.close()
+    
 def med(num):  #med: find the median of a list of numbers
     num.sort()
     if len(num)%2 == 0:
@@ -26,20 +43,6 @@ def paper_clean(paper): #paper_clean: clean all the special characters and make 
     paper = re.sub('[^a-zA-Z0-9]', ' ', paper)
     return paper
     
-path = "./wc_input"  #filepath of input files
-dirs = os.listdir(path)
-totalNum = []      #make a list for all the numbers of words in every line of all file
-
-for fl in dirs:
-    inputFile=open("./wc_input/"+fl,"r")
-    num = wordsinLine(inputFile)
-    totalNum =totalNum + num
-    inputFile.close()
-
-median = medList(totalNum)    
-outputFile=open("./wc_output/med_result.txt","w") #create a output file and write result into it
-for i in median:
-    print i
-    outputFile.write(str(i)+'\n')
+if __name__ == '__main__':
+    main()
     
-outputFile.close()

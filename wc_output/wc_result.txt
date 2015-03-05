@@ -1,9 +1,6 @@
 a	1
 big	1
-bud1	1
 call	1
-dsdb	1
-e	1
 every	2
 everyone	1
 get	1
