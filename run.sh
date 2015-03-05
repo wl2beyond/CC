@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash#
 
 # example of the run script for running the word count
 
