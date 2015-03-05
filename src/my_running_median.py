@@ -40,7 +40,8 @@ def medList(num):  #medList: find each meadian number line by line
 
 def paper_clean(paper): #paper_clean: clean all the special characters and make all letters into lower case
     paper = paper.lower()
-    paper = re.sub('[^a-zA-Z0-9]', ' ', paper)
+    paper = re.sub('[^a-zA-Z0-9\-]', ' ', paper)
+    paper = paper.replace('-','')
     return paper
     
 if __name__ == '__main__':
