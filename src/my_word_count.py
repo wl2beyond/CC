@@ -1,11 +1,13 @@
 import os
-def word(fileRead):
-    paper=fileRead.read()
+import re
+
+def word(inputFile):   # word: clean the text and store every word into a list
+    paper=inputFile.read()
     paper=paper_clean(paper)
     lists = paper.split()
     return lists
 
-def wordCount(wordList):
+def wordCount(wordList): # wordCount: for word in wordList, count how many times it appears and set it into the dictionary
     dic = {}
     for key in wordList:
         if key in dic:
@@ -14,47 +16,22 @@ def wordCount(wordList):
             dic[key] = 1
     return dic
 
-def paper_clean(paper):
+def paper_clean(paper): #paper_clean: clean all the special characters and make all letters into lower case
     paper = paper.lower()
-    paper = paper.replace(',',' ')
-    paper = paper.replace('.',' ')
-    paper = paper.replace('_',' ')
-    paper = paper.replace('!',' ')
-    paper = paper.replace('?',' ')
-    paper = paper.replace('~',' ')
-    paper = paper.replace('@',' ')
-    paper = paper.replace('#',' ')
-    paper = paper.replace('%',' ')
-    paper = paper.replace('^',' ')
-    paper = paper.replace('&',' ')
-    paper = paper.replace('*',' ')
-    paper = paper.replace('{',' ')
-    paper = paper.replace('}',' ')
-    paper = paper.replace('[',' ')
-    paper = paper.replace(']',' ')
-    paper = paper.replace(':',' ')
-    paper = paper.replace(';',' ')
-    paper = paper.replace('(','')
-    paper = paper.replace(')','')
-    paper = paper.replace('"','')
-    paper = paper.replace('\'','')
-    paper = paper.replace('$','')
-    print paper
+    paper = re.sub('[^a-zA-Z0-9]', ' ', paper)
     return paper
 
+path = "./wc_input"  #filepath of input files
+dirs = os.listdir(path)
+wordList = [] #make a list for all the words
 
-path = "./wc_input"
-dirs = os.listdir( path )
-wordList = []
 for fl in dirs:
-    print fl
-    fileRead = open("./wc_input/"+fl,"r")
-    lists = word(fileRead)
+    inputFile = open("./wc_input/"+fl,"r")
+    lists = word(inputFile)
     wordList = wordList + lists
-    fileRead.close()
-    print wordList
+    inputFile.close()
 
-w=open("./wc_output/wc_result.txt","w")
+outputFile=open("./wc_output/wc_result.txt","w")
 
 dic = wordCount(wordList)
 
@@ -63,7 +40,7 @@ sortedKey.sort()
 
 for key in sortedKey:
     print "%s\t%d\n"%(key,dic[key])
-    w.write("%s\t%d\n"%(key, dic[key]))
+    outputFile.write("%s\t%d\n"%(key, dic[key]))
     
 
-w.close()
+outputFile.close()

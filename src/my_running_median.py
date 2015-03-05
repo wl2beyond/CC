@@ -1,73 +1,45 @@
 import os
-def med(num):
+import re
+
+def med(num):  #med: find the median of a list of numbers
     num.sort()
     if len(num)%2 == 0:
         return float((num[int(len(num) / 2.0)] + num[int(len(num)/2.0 - 1)]) / 2.0)
     else:
         return float(num[int((len(num)-1)/2.0)])
     
-def WordsinLine(fl):
+def wordsinLine(fl): #WordsinLine: find number of words per line in a file
     num=[]
     for line in fl.readlines():
-        print line
         line=paper_clean(line)
         num.append(len(line.split()))       
-    print num
     return num
 
-def medList(num):
+def medList(num):  #medList: find each meadian number line by line
     median = []
     for i in range(len(num)):
         median.append(med(num[:(i+1)]))
     return median
 
-def paper_clean(paper):
+def paper_clean(paper): #paper_clean: clean all the special characters and make all letters into lower case
     paper = paper.lower()
-    paper = paper.replace(',',' ')
-    paper = paper.replace('.',' ')
-    paper = paper.replace('_',' ')
-    paper = paper.replace('!',' ')
-    paper = paper.replace('?',' ')
-    paper = paper.replace('~',' ')
-    paper = paper.replace('@',' ')
-    paper = paper.replace('#',' ')
-    paper = paper.replace('%',' ')
-    paper = paper.replace('^',' ')
-    paper = paper.replace('&',' ')
-    paper = paper.replace('*',' ')
-    paper = paper.replace('{',' ')
-    paper = paper.replace('}',' ')
-    paper = paper.replace('[',' ')
-    paper = paper.replace(']',' ')
-    paper = paper.replace(':',' ')
-    paper = paper.replace(';',' ')
-    paper = paper.replace('(','')
-    paper = paper.replace(')','')
-    paper = paper.replace('"','')
-    paper = paper.replace('\'','')
-    paper = paper.replace('$','')
-    print paper
+    paper = re.sub('[^a-zA-Z0-9]', ' ', paper)
     return paper
     
-path = "./wc_input"
-dirs = os.listdir( path )
-totalNum = []
-print totalNum
-for fl in dirs:
-    print fl
-    m=open("./wc_input/"+fl,"r")
-    num = WordsinLine(m)
-    totalNum =totalNum + num
-    print totalNum
-    m.close()
+path = "./wc_input"  #filepath of input files
+dirs = os.listdir(path)
+totalNum = []      #make a list for all the numbers of words in every line of all file
 
-median = medList(totalNum)
-print median
-    
-w=open("./wc_output/med_result.txt","w")
+for fl in dirs:
+    inputFile=open("./wc_input/"+fl,"r")
+    num = wordsinLine(inputFile)
+    totalNum =totalNum + num
+    inputFile.close()
+
+median = medList(totalNum)    
+outputFile=open("./wc_output/med_result.txt","w") #create a output file and write result into it
 for i in median:
     print i
-    w.write(str(i)+'\n')
+    outputFile.write(str(i)+'\n')
     
-
-w.close()
+outputFile.close()
